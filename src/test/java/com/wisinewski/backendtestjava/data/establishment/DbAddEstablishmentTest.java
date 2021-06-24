@@ -1,11 +1,10 @@
 package com.wisinewski.backendtestjava.data.establishment;
 
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 
 import org.junit.Assert;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -21,25 +20,25 @@ public class DbAddEstablishmentTest {
 	private LoadEstablishmentByCNPJRepositorySpy loadEstablishmentByCNPJRepositorySpy;
 	private AddEstablishmentRepositorySpy addEstablishmentRepositorySpy;
 	
-	public void init() {
+	public void makeSut() {
 		loadEstablishmentByCNPJRepositorySpy = new LoadEstablishmentByCNPJRepositorySpy();
 		addEstablishmentRepositorySpy = new AddEstablishmentRepositorySpy();
 		dbAddEstablishment = new DbAddEstablishment(loadEstablishmentByCNPJRepositorySpy, addEstablishmentRepositorySpy);
 	}
 	
-	public void init(LoadEstablishmentByCNPJRepositorySpy injectedLoadEstablishmentByCNPJRepositorySpy) {
+	public void makeSut(LoadEstablishmentByCNPJRepositorySpy injectedLoadEstablishmentByCNPJRepositorySpy) {
 		loadEstablishmentByCNPJRepositorySpy = injectedLoadEstablishmentByCNPJRepositorySpy;
 		dbAddEstablishment = new DbAddEstablishment(loadEstablishmentByCNPJRepositorySpy, addEstablishmentRepositorySpy);
 	}
 	
-	public void init(AddEstablishmentRepositorySpy injectedAddEstablishmentRepositorySpy) {
+	public void makeSut(AddEstablishmentRepositorySpy injectedAddEstablishmentRepositorySpy) {
 		addEstablishmentRepositorySpy = injectedAddEstablishmentRepositorySpy;
 		dbAddEstablishment = new DbAddEstablishment(loadEstablishmentByCNPJRepositorySpy, addEstablishmentRepositorySpy);
 	}
 
 	@Test
 	public void should_call_LoadEstablishmentByCNPJRepository_with_correct_value() {
-		init();
+		makeSut();
 		Establishment establishment = EstablishmentTest.mockEstablishment();
 		dbAddEstablishment.addEstablishment(establishment);
 		Assert.assertTrue(loadEstablishmentByCNPJRepositorySpy.getCnpj().equals(establishment.getCnpj()));
@@ -48,7 +47,7 @@ public class DbAddEstablishmentTest {
 	@Test(expected = RuntimeException.class)
 	public void should_throw_if_LoadEstablishmentByCNPJRepository_throws() {
 		loadEstablishmentByCNPJRepositorySpy = Mockito.mock(LoadEstablishmentByCNPJRepositorySpy.class);
-		init(loadEstablishmentByCNPJRepositorySpy);
+		makeSut(loadEstablishmentByCNPJRepositorySpy);
 		Establishment establishment = EstablishmentTest.mockEstablishment();
 		when(loadEstablishmentByCNPJRepositorySpy.loadByCNPJ(establishment.getCnpj())).thenThrow(new RuntimeException());
 		dbAddEstablishment.addEstablishment(establishment);
@@ -56,7 +55,7 @@ public class DbAddEstablishmentTest {
 	
 	@Test(expected = CNPJInUseException.class)
 	public void should_throw_CNPJInUseException_if_already_exists_an_establishment_with_received_cnpj() {
-		init();
+		makeSut();
 		Establishment establishment = EstablishmentTest.mockEstablishment();
 		loadEstablishmentByCNPJRepositorySpy.setResult(establishment);
 		dbAddEstablishment.addEstablishment(establishment);
@@ -64,10 +63,19 @@ public class DbAddEstablishmentTest {
 	
 	@Test
 	public void should_call_AddEstablishmentRepository_with_correct_value() {
-		init();
+		makeSut();
 		Establishment establishment = EstablishmentTest.mockEstablishment();
 		dbAddEstablishment.addEstablishment(establishment);
 		Assert.assertTrue(addEstablishmentRepositorySpy.getEstablishment().equals(establishment));
+	}
+	
+	@Test(expected = RuntimeException.class)
+	public void should_throw_if_AddEstablishmentRepository_throws() {
+		addEstablishmentRepositorySpy = Mockito.mock(AddEstablishmentRepositorySpy.class);
+		makeSut(addEstablishmentRepositorySpy);
+		Establishment establishment = EstablishmentTest.mockEstablishment();
+		doThrow(new RuntimeException()).when(addEstablishmentRepositorySpy).add(establishment);
+		dbAddEstablishment.addEstablishment(establishment);
 	}
 
 }
