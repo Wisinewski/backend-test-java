@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.wisinewski.backendtestjava.data.protocols.LoadEstablishmentByCNPJRepository;
 import com.wisinewski.backendtestjava.domain.models.establishment.Establishment;
 import com.wisinewski.backendtestjava.domain.usecases.AddEstablishment;
+import com.wisinewski.backendtestjava.presentation.exceptions.CNPJInUseException;
 
 public class DbAddEstablishment implements AddEstablishment {
 	
@@ -19,7 +20,10 @@ public class DbAddEstablishment implements AddEstablishment {
 
 	@Override
 	public void addEstablishment(Establishment establishment) {
-		Optional.ofNullable(loadEstablishmentByCNPJRepository.loadByCNPJ(establishment.getCnpj()));
+		Optional<Establishment> existentEstablishment = Optional.ofNullable(loadEstablishmentByCNPJRepository.loadByCNPJ(establishment.getCnpj()));
+		if (existentEstablishment.isPresent()) {
+			throw new CNPJInUseException();
+		}
 	}
 
 }
