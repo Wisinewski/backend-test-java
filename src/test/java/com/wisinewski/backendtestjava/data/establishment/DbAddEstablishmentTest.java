@@ -1,8 +1,12 @@
 package com.wisinewski.backendtestjava.data.establishment;
 
+import static org.mockito.Mockito.when;
+
 import org.junit.Assert;
-import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
+import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.wisinewski.backendtestjava.data.usecases.establishment.DbAddEstablishment;
@@ -15,17 +19,34 @@ public class DbAddEstablishmentTest {
 	private DbAddEstablishment dbAddEstablishment;
 	private LoadEstablishmentByCNPJRepositorySpy loadEstablishmentByCNPJRepositorySpy;
 	
-	@Before
+	@Rule
+	public final ExpectedException expectedException = ExpectedException.none();
+	
 	public void init() {
 		loadEstablishmentByCNPJRepositorySpy = new LoadEstablishmentByCNPJRepositorySpy();
+		dbAddEstablishment = new DbAddEstablishment(loadEstablishmentByCNPJRepositorySpy);
+	}
+	
+	public void init(LoadEstablishmentByCNPJRepositorySpy injectedLoadEstablishmentByCNPJRepositorySpy) {
+		loadEstablishmentByCNPJRepositorySpy = injectedLoadEstablishmentByCNPJRepositorySpy;
 		dbAddEstablishment = new DbAddEstablishment(loadEstablishmentByCNPJRepositorySpy);
 	}
 
 	@Test
 	public void should_call_LoadEstablishmentByCNPJRepository_with_correct_value() {
+		init();
 		Establishment establishment = EstablishmentTest.mockEstablishment();
 		dbAddEstablishment.addEstablishment(establishment);
 		Assert.assertTrue(loadEstablishmentByCNPJRepositorySpy.getCnpj().equals(establishment.getCnpj()));
+	}
+	
+	@Test(expected = RuntimeException.class)
+	public void should_throw_if_LoadEstablishmentByCNPJRepository_throws() {
+		loadEstablishmentByCNPJRepositorySpy = Mockito.mock(LoadEstablishmentByCNPJRepositorySpy.class);
+		init(loadEstablishmentByCNPJRepositorySpy);
+		Establishment establishment = EstablishmentTest.mockEstablishment();
+		when(loadEstablishmentByCNPJRepositorySpy.loadByCNPJ(establishment.getCnpj())).thenThrow(new RuntimeException());
+		dbAddEstablishment.addEstablishment(establishment);
 	}
 
 }
