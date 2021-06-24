@@ -19,18 +19,22 @@ public class DbAddEstablishmentTest {
 	
 	private DbAddEstablishment dbAddEstablishment;
 	private LoadEstablishmentByCNPJRepositorySpy loadEstablishmentByCNPJRepositorySpy;
-	
-	@Rule
-	public final ExpectedException expectedException = ExpectedException.none();
+	private AddEstablishmentRepositorySpy addEstablishmentRepositorySpy;
 	
 	public void init() {
 		loadEstablishmentByCNPJRepositorySpy = new LoadEstablishmentByCNPJRepositorySpy();
-		dbAddEstablishment = new DbAddEstablishment(loadEstablishmentByCNPJRepositorySpy);
+		addEstablishmentRepositorySpy = new AddEstablishmentRepositorySpy();
+		dbAddEstablishment = new DbAddEstablishment(loadEstablishmentByCNPJRepositorySpy, addEstablishmentRepositorySpy);
 	}
 	
 	public void init(LoadEstablishmentByCNPJRepositorySpy injectedLoadEstablishmentByCNPJRepositorySpy) {
 		loadEstablishmentByCNPJRepositorySpy = injectedLoadEstablishmentByCNPJRepositorySpy;
-		dbAddEstablishment = new DbAddEstablishment(loadEstablishmentByCNPJRepositorySpy);
+		dbAddEstablishment = new DbAddEstablishment(loadEstablishmentByCNPJRepositorySpy, addEstablishmentRepositorySpy);
+	}
+	
+	public void init(AddEstablishmentRepositorySpy injectedAddEstablishmentRepositorySpy) {
+		addEstablishmentRepositorySpy = injectedAddEstablishmentRepositorySpy;
+		dbAddEstablishment = new DbAddEstablishment(loadEstablishmentByCNPJRepositorySpy, addEstablishmentRepositorySpy);
 	}
 
 	@Test
@@ -56,6 +60,14 @@ public class DbAddEstablishmentTest {
 		Establishment establishment = EstablishmentTest.mockEstablishment();
 		loadEstablishmentByCNPJRepositorySpy.setResult(establishment);
 		dbAddEstablishment.addEstablishment(establishment);
+	}
+	
+	@Test
+	public void should_call_AddEstablishmentRepository_with_correct_value() {
+		init();
+		Establishment establishment = EstablishmentTest.mockEstablishment();
+		dbAddEstablishment.addEstablishment(establishment);
+		Assert.assertTrue(addEstablishmentRepositorySpy.getEstablishment().equals(establishment));
 	}
 
 }
