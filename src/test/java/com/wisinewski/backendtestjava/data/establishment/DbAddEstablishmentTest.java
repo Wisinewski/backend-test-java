@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.wisinewski.backendtestjava.data.usecases.establishment.DbAddEstablishment;
 import com.wisinewski.backendtestjava.domain.models.EstablishmentTest;
 import com.wisinewski.backendtestjava.domain.models.establishment.Establishment;
+import com.wisinewski.backendtestjava.presentation.exceptions.CNPJInUseException;
 
 @SpringBootTest
 public class DbAddEstablishmentTest {
@@ -46,6 +47,14 @@ public class DbAddEstablishmentTest {
 		init(loadEstablishmentByCNPJRepositorySpy);
 		Establishment establishment = EstablishmentTest.mockEstablishment();
 		when(loadEstablishmentByCNPJRepositorySpy.loadByCNPJ(establishment.getCnpj())).thenThrow(new RuntimeException());
+		dbAddEstablishment.addEstablishment(establishment);
+	}
+	
+	@Test(expected = CNPJInUseException.class)
+	public void should_throw_CNPJInUseException_if_already_exists_an_establishment_with_received_cnpj() {
+		init();
+		Establishment establishment = EstablishmentTest.mockEstablishment();
+		loadEstablishmentByCNPJRepositorySpy.setResult(establishment);
 		dbAddEstablishment.addEstablishment(establishment);
 	}
 
