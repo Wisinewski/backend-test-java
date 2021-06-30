@@ -11,7 +11,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "vehicles")
-public abstract class Vehicle implements Serializable {
+public class Vehicle implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -26,7 +26,10 @@ public abstract class Vehicle implements Serializable {
 	@Column(name = "id_vehicle_type")
 	private VehicleType vehicleType;
 	
-	protected Vehicle(String brand, String model, String color, String licensePlate, VehicleType vehicleType) {
+	public Vehicle() {
+	}
+	
+	public Vehicle(String brand, String model, String color, String licensePlate, VehicleType vehicleType) {
 		this.brand = brand;
 		this.model = model;
 		this.color = color;

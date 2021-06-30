@@ -8,6 +8,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.wisinewski.backendtestjava.domain.models.params.establishment.AddressParams;
+
 @Entity
 @Table(name = "addresses")
 public class Address implements Serializable {
@@ -24,6 +26,9 @@ public class Address implements Serializable {
 	private String street;
 	private String number;
 	private String complement;
+	
+	public Address() {
+	}
 
 	public Address(Long id, String country, String state, String city, String district, String street, String number,
 			String complement) {
@@ -35,6 +40,10 @@ public class Address implements Serializable {
 		this.street = street;
 		this.number = number;
 		this.complement = complement;
+	}
+	
+	public static Address parseAddress(AddressParams addressParams) {
+		return new Address(null, addressParams.getCountry(), addressParams.getState(), addressParams.getCity(), addressParams.getDistrict(), addressParams.getStreet(), addressParams.getNumber(), addressParams.getComplement());
 	}
 	
 	public Long getId() {

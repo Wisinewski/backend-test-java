@@ -2,18 +2,13 @@ package com.wisinewski.backendtestjava.domain.models.establishment;
 
 import java.io.Serializable;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.wisinewski.backendtestjava.domain.models.vehicle.VehicleType;
+import com.wisinewski.backendtestjava.domain.models.params.establishment.SpaceParams;
 
 @Entity
 @Table(name = "spaces")
@@ -24,26 +19,27 @@ public class Space implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
-	@Column(name = "id_vehicle_type")
-	private VehicleType spaceType;
+	private Integer spaceType;
 	private Integer quantityOfSpaces;
 	
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinColumn(name="id_establishment")
-	private Establishment establishment;
+	public Space() {
+	}
 	
-	public Space(Long id, VehicleType spaceType, Integer quantityOfSpaces) {
+	public Space(Long id, Integer spaceType, Integer quantityOfSpaces) {
 		this.id = id;
 		this.spaceType = spaceType;
 		this.quantityOfSpaces = quantityOfSpaces;
+	}
+	
+	public static Space parseSpace(SpaceParams spaceParams) {
+		return new Space(null, spaceParams.getSpaceType(), spaceParams.getQuantityOfSpaces());
 	}
 
 	public Long getId() {
 		return id;
 	}
 
-	public VehicleType getType() {
+	public Integer getType() {
 		return spaceType;
 	}
 

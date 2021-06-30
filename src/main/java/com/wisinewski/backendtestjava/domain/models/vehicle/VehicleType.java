@@ -19,6 +19,9 @@ public class VehicleType implements Serializable {
 	private Long id;
 	private String type;
 	
+	public VehicleType() {
+	}
+	
 	public VehicleType(Long id, String type) {
 		this.id = id;
 		this.type = type;
