@@ -1,6 +1,6 @@
 package com.wisinewski.backendtestjava.data.establishment;
 
-import com.wisinewski.backendtestjava.data.protocols.AddEstablishmentRepository;
+import com.wisinewski.backendtestjava.data.protocols.establishment.AddEstablishmentRepository;
 import com.wisinewski.backendtestjava.domain.models.establishment.Establishment;
 
 public class AddEstablishmentRepositorySpy implements AddEstablishmentRepository {
