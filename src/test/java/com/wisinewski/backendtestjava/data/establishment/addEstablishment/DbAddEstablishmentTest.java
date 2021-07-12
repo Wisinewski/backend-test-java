@@ -1,4 +1,4 @@
-package com.wisinewski.backendtestjava.data.establishment;
+package com.wisinewski.backendtestjava.data.establishment.addEstablishment;
 
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
