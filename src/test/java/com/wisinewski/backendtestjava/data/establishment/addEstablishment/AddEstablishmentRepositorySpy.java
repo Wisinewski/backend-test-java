@@ -1,4 +1,4 @@
-package com.wisinewski.backendtestjava.data.establishment;
+package com.wisinewski.backendtestjava.data.establishment.addEstablishment;
 
 import com.wisinewski.backendtestjava.data.protocols.establishment.AddEstablishmentRepository;
 import com.wisinewski.backendtestjava.domain.models.establishment.Establishment;
@@ -10,7 +10,6 @@ public class AddEstablishmentRepositorySpy implements AddEstablishmentRepository
 	@Override
 	public void add(Establishment establishment) {
 		this.establishment = establishment;
-		return;
 	}
 	
 	public Establishment getEstablishment() {
