@@ -14,12 +14,12 @@ import com.wisinewski.backendtestjava.presentation.exceptions.CNPJInUseException
 
 @RestController
 @RequestMapping(value = "/establishments")
-public class EstablishmentController {
+public class AddEstablishmentController {
 	
 	private AddEstablishment addEstablishment;
 	
 	@Autowired
-	public EstablishmentController(AddEstablishment addEstablishment) {
+	public AddEstablishmentController(AddEstablishment addEstablishment) {
 		this.addEstablishment = addEstablishment;
 	}
 
