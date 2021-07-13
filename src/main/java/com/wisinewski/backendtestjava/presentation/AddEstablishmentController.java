@@ -24,7 +24,7 @@ public class AddEstablishmentController {
 	}
 
 	@PostMapping
-	public ResponseEntity loadAll(@RequestBody EstablishmentParams establishmentParams) {
+	public ResponseEntity handle(@RequestBody EstablishmentParams establishmentParams) {
 		try {
 			Establishment establishment = Establishment.parseEstablishment(establishmentParams);
 			addEstablishment.addEstablishment(establishment);
@@ -32,7 +32,6 @@ public class AddEstablishmentController {
 		} catch (CNPJInUseException exception) {
 			return ResponseEntity.status(409).body(exception.getMessage());
 		} catch (Exception exception) {
-			System.out.println(exception);
 			return ResponseEntity.internalServerError().build();
 		}
 	}

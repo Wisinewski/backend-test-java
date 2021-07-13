@@ -8,10 +8,11 @@ import org.springframework.data.repository.query.Param;
 
 import com.wisinewski.backendtestjava.data.protocols.LoadEstablishmentByCNPJRepository;
 import com.wisinewski.backendtestjava.data.protocols.establishment.AddEstablishmentRepository;
+import com.wisinewski.backendtestjava.data.protocols.establishment.DeleteEstablishmentByIdRepository;
 import com.wisinewski.backendtestjava.data.protocols.establishment.LoadEstablishmentByIdRepository;
 import com.wisinewski.backendtestjava.domain.models.establishment.Establishment;
 
-public interface EstablishmentMySQLRepository extends JpaRepository<Establishment, Long>, AddEstablishmentRepository, LoadEstablishmentByCNPJRepository, LoadEstablishmentByIdRepository {
+public interface EstablishmentMySQLRepository extends JpaRepository<Establishment, Long>, AddEstablishmentRepository, LoadEstablishmentByCNPJRepository, LoadEstablishmentByIdRepository, DeleteEstablishmentByIdRepository {
 
 	@Override
 	public default void add(Establishment establishment) {
