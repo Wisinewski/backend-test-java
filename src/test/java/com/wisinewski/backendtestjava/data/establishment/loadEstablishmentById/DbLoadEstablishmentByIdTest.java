@@ -32,5 +32,14 @@ public class DbLoadEstablishmentByIdTest {
 		dbLoadEstablishmentById.loadById(id);
 		Assert.assertTrue(loadEstablishmentByIdRepositorySpy.getId().equals(id));
 	}
+	
+	@Test(expected = RuntimeException.class)
+	public void should_throw_if_LoadEstablishmentByIdRepository_throws() {
+		loadEstablishmentByIdRepositorySpy = Mockito.mock(LoadEstablishmentByIdRepositorySpy.class);
+		makeSut(loadEstablishmentByIdRepositorySpy);
+		Long id = 1L;
+		when(loadEstablishmentByIdRepositorySpy.loadById(id)).thenThrow(new RuntimeException());
+		dbLoadEstablishmentById.loadById(id);
+	}
 
 }
