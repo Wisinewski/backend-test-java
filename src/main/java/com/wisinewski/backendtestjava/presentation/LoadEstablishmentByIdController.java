@@ -24,14 +24,13 @@ public class LoadEstablishmentByIdController {
 	}
 
 	@GetMapping(value = "/{id}")
-	public ResponseEntity loadAll(@PathVariable Long id) {
+	public ResponseEntity handle(@PathVariable Long id) {
 		try {
 			Establishment establishment = loadEstablishmentById.loadById(id);
 			return ResponseEntity.ok(establishment);
 		} catch (NoSuchElementException exception) {
 			return ResponseEntity.notFound().build();
 		} catch (Exception exception) {
-			System.out.println(exception);
 			return ResponseEntity.internalServerError().build();
 		}
 	}
