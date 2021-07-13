@@ -1,7 +1,6 @@
 package com.wisinewski.backendtestjava.data.establishment;
 
 import com.wisinewski.backendtestjava.data.protocols.LoadEstablishmentByCNPJRepository;
-import com.wisinewski.backendtestjava.domain.models.EstablishmentTest;
 import com.wisinewski.backendtestjava.domain.models.establishment.Establishment;
 
 public class LoadEstablishmentByCNPJRepositorySpy implements LoadEstablishmentByCNPJRepository {
