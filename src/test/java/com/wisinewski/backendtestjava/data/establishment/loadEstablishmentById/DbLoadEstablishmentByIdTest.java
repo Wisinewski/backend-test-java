@@ -2,12 +2,16 @@ package com.wisinewski.backendtestjava.data.establishment.loadEstablishmentById;
 
 import static org.mockito.Mockito.when;
 
+import java.util.Optional;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.wisinewski.backendtestjava.data.usecases.establishment.DbLoadEstablishmentById;
+import com.wisinewski.backendtestjava.domain.models.EstablishmentTest;
+import com.wisinewski.backendtestjava.domain.models.establishment.Establishment;
 
 @SpringBootTest
 public class DbLoadEstablishmentByIdTest {
@@ -40,6 +44,13 @@ public class DbLoadEstablishmentByIdTest {
 		Long id = 1L;
 		when(loadEstablishmentByIdRepositorySpy.loadById(id)).thenThrow(new RuntimeException());
 		dbLoadEstablishmentById.loadById(id);
+	}
+	
+	@Test
+	public void should_return_an_establishment_on_success() {
+		makeSut();
+		Establishment establishment = dbLoadEstablishmentById.loadById(1L);
+		Assert.assertTrue(establishment instanceof Establishment);
 	}
 
 }
