@@ -1,9 +1,11 @@
 package com.wisinewski.backendtestjava.data.protocols.establishment;
 
+import java.util.Optional;
+
 import com.wisinewski.backendtestjava.domain.models.establishment.Establishment;
 
 public interface LoadEstablishmentByIdRepository {
 
-	Establishment loadById(Long id);
+	Optional<Establishment> loadById(Long id);
 	
 }

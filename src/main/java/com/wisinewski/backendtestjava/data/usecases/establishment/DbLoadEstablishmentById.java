@@ -1,5 +1,7 @@
 package com.wisinewski.backendtestjava.data.usecases.establishment;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.wisinewski.backendtestjava.data.protocols.establishment.LoadEstablishmentByIdRepository;
@@ -17,7 +19,8 @@ public class DbLoadEstablishmentById implements LoadEstablishmentById {
 
 	@Override
 	public Establishment loadById(Long id) {
-		return loadEstablishmentByIdRepository.loadById(id);
+		Optional<Establishment> optionalEstablishment = loadEstablishmentByIdRepository.loadById(id);
+		return optionalEstablishment.get();
 	}
 	
 }
