@@ -8,6 +8,7 @@ import org.junit.Test;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.wisinewski.backendtestjava.data.establishment.LoadEstablishmentByCNPJRepositorySpy;
 import com.wisinewski.backendtestjava.data.usecases.establishment.DbAddEstablishment;
 import com.wisinewski.backendtestjava.domain.models.EstablishmentTest;
 import com.wisinewski.backendtestjava.domain.models.establishment.Establishment;
