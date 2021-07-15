@@ -2,12 +2,16 @@ package com.wisinewski.backendtestjava.data.vehicle.loadAllVehicleTypes;
 
 import static org.mockito.Mockito.when;
 
+import java.util.Collections;
+import java.util.List;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.wisinewski.backendtestjava.data.usecases.vehicle.DbLoadAllVehicleTypes;
+import com.wisinewski.backendtestjava.domain.models.vehicle.VehicleType;
 
 @SpringBootTest
 public class DbLoadAllVehicleTypesTest {
@@ -38,6 +42,14 @@ public class DbLoadAllVehicleTypesTest {
 		makeSut(loadAllVehicleTypesRepositorySpy);
 		when(loadAllVehicleTypesRepositorySpy.loadAll()).thenThrow(new RuntimeException());
 		dbLoadAllVehicleTypes.loadAll();
+	}
+	
+	@Test
+	public void should_return_null_if_LoadAllVehicleTypesRepository_returns_an_empty_list() {
+		makeSut();
+		loadAllVehicleTypesRepositorySpy.setResult(Collections.emptyList());
+		List<VehicleType> vehicleTypes = dbLoadAllVehicleTypes.loadAll();
+		Assert.assertNull(vehicleTypes);
 	}
 	
 }

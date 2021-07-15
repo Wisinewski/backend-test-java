@@ -22,6 +22,10 @@ public class LoadAllVehicleTypesRepositorySpy implements LoadAllVehicleTypesRepo
 		return result;
 	}
 	
+	public void setResult(List<VehicleType> result) {
+		this.result = result;
+	}
+	
 	public Boolean getWasCalled() {
 		return wasCalled;
 	}
