@@ -20,8 +20,8 @@ public class DbLoadAllVehicleTypes implements LoadAllVehicleTypes {
 	}
 
 	public List<VehicleType> loadAll() {
-		loadAllVehicleTypesRepository.loadAll();
-		return null;
+		List<VehicleType> vehicleTypes = loadAllVehicleTypesRepository.loadAll();
+		return vehicleTypes.isEmpty() ? null : vehicleTypes;
 	}
 	
 }
