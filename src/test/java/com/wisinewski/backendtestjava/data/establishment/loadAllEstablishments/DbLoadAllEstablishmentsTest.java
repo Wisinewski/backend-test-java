@@ -11,6 +11,7 @@ import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.wisinewski.backendtestjava.data.usecases.establishment.DbLoadAllEstablishments;
+import com.wisinewski.backendtestjava.domain.models.EstablishmentTest;
 import com.wisinewski.backendtestjava.domain.models.establishment.Establishment;
 
 @SpringBootTest
@@ -50,6 +51,14 @@ public class DbLoadAllEstablishmentsTest {
 		loadAllEstablishmentsRepositorySpy.setResult(Collections.emptyList());
 		List<Establishment> establishments = dbLoadAllEstablishments.loadAll();
 		Assert.assertNull(establishments);
+	}
+	
+	@Test
+	public void should_return_a_list_of_establishments_on_success() {
+		makeSut();
+		List<Establishment> establishments = dbLoadAllEstablishments.loadAll();
+		Assert.assertNotNull(establishments);
+		Assert.assertEquals(establishments.get(0), EstablishmentTest.mockEstablishment());
 	}
 
 }
