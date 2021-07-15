@@ -19,7 +19,8 @@ public class DbLoadAllEstablishments implements LoadAllEstablishments {
 
 	@Override
 	public List<Establishment> loadAll() {
-		return loadAllEstablishmentsRepository.loadAll();
+		List<Establishment> establishments = loadAllEstablishmentsRepository.loadAll();
+		return establishments.isEmpty() ? null : establishments;
 	}
 	
 }
