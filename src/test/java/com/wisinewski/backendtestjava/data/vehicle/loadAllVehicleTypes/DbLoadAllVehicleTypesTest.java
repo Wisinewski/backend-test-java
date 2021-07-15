@@ -11,6 +11,7 @@ import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.wisinewski.backendtestjava.data.usecases.vehicle.DbLoadAllVehicleTypes;
+import com.wisinewski.backendtestjava.domain.models.VehicleTest;
 import com.wisinewski.backendtestjava.domain.models.vehicle.VehicleType;
 
 @SpringBootTest
@@ -50,6 +51,14 @@ public class DbLoadAllVehicleTypesTest {
 		loadAllVehicleTypesRepositorySpy.setResult(Collections.emptyList());
 		List<VehicleType> vehicleTypes = dbLoadAllVehicleTypes.loadAll();
 		Assert.assertNull(vehicleTypes);
+	}
+	
+	@Test
+	public void should_return_a_list_of_VehicleTypes_on_success() {
+		makeSut();
+		List<VehicleType> vehicleTypes = dbLoadAllVehicleTypes.loadAll();
+		Assert.assertNotNull(vehicleTypes);
+		Assert.assertTrue(vehicleTypes.get(0).equals(VehicleTest.mockVehicleType()));
 	}
 	
 }
