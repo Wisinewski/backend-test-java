@@ -1,6 +1,7 @@
 package com.wisinewski.backendtestjava.data.vehicle.addVehicle;
 
 import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.when;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -43,6 +44,15 @@ public class DbAddVehicleTest {
 		VehicleParams vehicleParams = VehicleParamsTest.mockVehicleParams();
 		dbAddVehicle.addVehicle(vehicleParams);
 		Assert.assertEquals(vehicleParams.getVehicleType(), loadVehicleTypeByIdRepositorySpy.getId());
+	}
+	
+	@Test(expected = RuntimeException.class)
+	public void should_throw_if_LoadVehicleTypeByIdRepository_throws() {
+		loadVehicleTypeByIdRepositorySpy = Mockito.mock(LoadVehicleTypeByIdRepositorySpy.class);
+		makeSut(loadVehicleTypeByIdRepositorySpy);
+		VehicleParams vehicleParams = VehicleParamsTest.mockVehicleParams();
+		when(loadVehicleTypeByIdRepositorySpy.loadById(vehicleParams.getVehicleType())).thenThrow(new RuntimeException());
+		dbAddVehicle.addVehicle(vehicleParams);
 	}
 	
 	@Test
