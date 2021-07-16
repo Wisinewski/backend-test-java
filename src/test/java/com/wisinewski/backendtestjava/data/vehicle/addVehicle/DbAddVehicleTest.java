@@ -38,6 +38,14 @@ public class DbAddVehicleTest {
 	}
 	
 	@Test
+	public void should_call_LoadVehicleTypeByIdRepository_with_correct_value() {
+		makeSut();
+		VehicleParams vehicleParams = VehicleParamsTest.mockVehicleParams();
+		dbAddVehicle.addVehicle(vehicleParams);
+		Assert.assertEquals(vehicleParams.getVehicleType(), loadVehicleTypeByIdRepositorySpy.getId());
+	}
+	
+	@Test
 	public void should_call_AddVehicleRepository_with_correct_value() {
 		makeSut();
 		VehicleParams vehicleParams = VehicleParamsTest.mockVehicleParams();
