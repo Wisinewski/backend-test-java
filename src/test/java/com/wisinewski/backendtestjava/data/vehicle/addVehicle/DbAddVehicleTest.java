@@ -3,6 +3,8 @@ package com.wisinewski.backendtestjava.data.vehicle.addVehicle;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 
+import java.util.Optional;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -10,6 +12,7 @@ import org.mockito.Mockito;
 import com.wisinewski.backendtestjava.data.usecases.vehicle.DbAddVehicle;
 import com.wisinewski.backendtestjava.domain.models.VehicleTest;
 import com.wisinewski.backendtestjava.domain.models.vehicle.Vehicle;
+import com.wisinewski.backendtestjava.presentation.exceptions.ObjectNotFoundException;
 import com.wisinewski.backendtestjava.presentation.params.VehicleParams;
 import com.wisinewski.backendtestjava.presentation.params.VehicleParamsTest;
 
@@ -52,6 +55,14 @@ public class DbAddVehicleTest {
 		makeSut(loadVehicleTypeByIdRepositorySpy);
 		VehicleParams vehicleParams = VehicleParamsTest.mockVehicleParams();
 		when(loadVehicleTypeByIdRepositorySpy.loadById(vehicleParams.getVehicleType())).thenThrow(new RuntimeException());
+		dbAddVehicle.addVehicle(vehicleParams);
+	}
+	
+	@Test(expected = ObjectNotFoundException.class)
+	public void should_throw_ObjectNotFoundException_if_LoadVehicleTypeByIdRepository_returns_an_empty_Optional() {
+		makeSut();
+		loadVehicleTypeByIdRepositorySpy.setResult(Optional.empty());
+		VehicleParams vehicleParams = VehicleParamsTest.mockVehicleParams();
 		dbAddVehicle.addVehicle(vehicleParams);
 	}
 	
