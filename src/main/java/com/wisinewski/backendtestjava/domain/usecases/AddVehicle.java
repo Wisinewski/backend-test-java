@@ -1,9 +1,9 @@
 package com.wisinewski.backendtestjava.domain.usecases;
 
-import com.wisinewski.backendtestjava.domain.models.vehicle.Vehicle;
+import com.wisinewski.backendtestjava.presentation.params.VehicleParams;
 
 public interface AddVehicle {
 	
-	void addVehicle(Vehicle vehicle);
+	void addVehicle(VehicleParams vehicleParams);
 
 }
