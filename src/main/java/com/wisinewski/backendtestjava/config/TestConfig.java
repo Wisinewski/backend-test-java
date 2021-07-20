@@ -49,7 +49,7 @@ public class TestConfig implements CommandLineRunner {
 		phones.add(new Phone(null, "00", "000000000"));
 		spaces = new HashSet<>();
 		spaces.add(new Space(null, 1, 50));
-		Establishment establishmentAdmin = new Establishment(null, "any_name", "000", phones, spaces, address, hasher.hash("any_password"));
+		Establishment establishmentAdmin = new Establishment(null, "any_name", "111", phones, spaces, address, hasher.hash("any_password"));
 		establishmentAdmin.addProfile(ProfileLevel.ADMIN);
 		establishmentMySQLRepository.add(establishmentAdmin);
 	}
