@@ -7,16 +7,18 @@ public class EstablishmentParams {
 
 	private String name;
 	private String cnpj;
+	private String password;
 	private Set<PhoneParams> phones = new HashSet<>();
 	private AddressParams address;
 	private Set<SpaceParams> spaces = new HashSet<>();
 
-	public EstablishmentParams(Long id, String name, String cnpj, Set<PhoneParams> phones, Set<SpaceParams> spaces, AddressParams address) {
+	public EstablishmentParams(Long id, String name, String cnpj, Set<PhoneParams> phones, Set<SpaceParams> spaces, AddressParams address, String password) {
 		this.name = name;
 		this.cnpj = cnpj;
 		this.phones = phones;
 		this.spaces = spaces;
 		this.address = address;
+		this.password = password;
 	}
 
 	public String getName() {
@@ -25,6 +27,10 @@ public class EstablishmentParams {
 
 	public String getCnpj() {
 		return cnpj;
+	}
+	
+	public String getPassword() {
+		return password;
 	}
 
 	public Set<PhoneParams> getPhones() {
