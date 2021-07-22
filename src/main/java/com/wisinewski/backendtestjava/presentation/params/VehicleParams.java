@@ -7,16 +7,18 @@ public class VehicleParams {
 	private String color;
 	private String licensePlate;
 	private Long vehicleType;
+	private Long establishment;
 	
 	public VehicleParams() {
 	}
 	
-	public VehicleParams(String brand, String model, String color, String licensePlate, Long vehicleType) {
+	public VehicleParams(String brand, String model, String color, String licensePlate, Long vehicleType, Long establishment) {
 		this.brand = brand;
 		this.model = model;
 		this.color = color;
 		this.licensePlate = licensePlate;
 		this.vehicleType = vehicleType;
+		this.establishment = establishment;
 	}
 
 	public String getBrand() {
@@ -37,6 +39,10 @@ public class VehicleParams {
 
 	public Long getVehicleType() {
 		return vehicleType;
+	}
+	
+	public Long getEstablishment() {
+		return establishment;
 	}
 	
 }

@@ -1,8 +1,10 @@
 package com.wisinewski.backendtestjava.domain.models.establishment;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -22,6 +24,7 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.wisinewski.backendtestjava.domain.enums.ProfileLevel;
 import com.wisinewski.backendtestjava.domain.models.params.establishment.EstablishmentParams;
+import com.wisinewski.backendtestjava.domain.models.vehicle.Vehicle;
 
 @Entity
 @Table(name = "establishments")
@@ -53,6 +56,10 @@ public class Establishment implements Serializable {
 	@ElementCollection(fetch=FetchType.EAGER)
 	@CollectionTable(name="PROFILES")
 	private Set<Integer> profiles = new HashSet<>();
+	
+	@JsonIgnore
+	@OneToMany(mappedBy = "establishment")
+	private List<Vehicle> vehicles = new ArrayList<>();
 	
 	public Establishment() {
 	}
