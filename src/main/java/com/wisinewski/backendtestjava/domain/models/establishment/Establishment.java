@@ -1,12 +1,16 @@
 package com.wisinewski.backendtestjava.domain.models.establishment;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -17,7 +21,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.wisinewski.backendtestjava.domain.enums.ProfileLevel;
 import com.wisinewski.backendtestjava.domain.models.params.establishment.EstablishmentParams;
+import com.wisinewski.backendtestjava.domain.models.vehicle.Vehicle;
 
 @Entity
 @Table(name = "establishments")
@@ -31,6 +38,9 @@ public class Establishment implements Serializable {
 	private String name;
 	private String cnpj;
 	
+	@JsonIgnore
+	private String password;
+	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name="id_establishment", referencedColumnName = "id")
 	private Set<Phone> phones = new HashSet<>();
@@ -43,23 +53,33 @@ public class Establishment implements Serializable {
 	@JoinColumn(name = "id_establishment", referencedColumnName = "id")
 	private Set<Space> spaces = new HashSet<>();
 	
+	@ElementCollection(fetch=FetchType.EAGER)
+	@CollectionTable(name="PROFILES")
+	private Set<Integer> profiles = new HashSet<>();
+	
+	@JsonIgnore
+	@OneToMany(mappedBy = "establishment")
+	private List<Vehicle> vehicles = new ArrayList<>();
+	
 	public Establishment() {
 	}
 
-	public Establishment(Long id, String name, String cnpj, Set<Phone> phones, Set<Space> spaces, Address address) {
+	public Establishment(Long id, String name, String cnpj, Set<Phone> phones, Set<Space> spaces, Address address, String password) {
 		this.id = id;
 		this.name = name;
 		this.cnpj = cnpj;
 		this.phones = phones;
 		this.spaces = spaces;
 		this.address = address;
+		this.password = password;
+		addProfile(ProfileLevel.CLIENT);
 	}
 	
 	public static Establishment parseEstablishment(EstablishmentParams establishmentParams) {
 		Set<Phone> parsedPhones = establishmentParams.getPhones().stream().map(Phone::parsePhone).collect(Collectors.toSet());
 		Set<Space> parsedSpaces = establishmentParams.getSpaces().stream().map(Space::parseSpace).collect(Collectors.toSet());
 		Address parsedAddress = Address.parseAddress(establishmentParams.getAddress());
-		return new Establishment(null, establishmentParams.getName(), establishmentParams.getCnpj(), parsedPhones, parsedSpaces, parsedAddress);
+		return new Establishment(null, establishmentParams.getName(), establishmentParams.getCnpj(), parsedPhones, parsedSpaces, parsedAddress, establishmentParams.getPassword());
 	}
 
 	public Long getId() {
@@ -73,11 +93,18 @@ public class Establishment implements Serializable {
 	public String getCnpj() {
 		return cnpj;
 	}
+	
+	public String getPassword() {
+		return password;
+	}
+	
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
 	public Set<Phone> getPhones() {
 		return Collections.unmodifiableSet(phones);
 	}
-
 
 	public Set<Space> getSpaces() {
 		return Collections.unmodifiableSet(spaces);
@@ -85,6 +112,14 @@ public class Establishment implements Serializable {
 
 	public Address getAddress() {
 		return address;
+	}
+	
+	public Set<ProfileLevel> getProfiles() {
+		return profiles.stream().map(code -> ProfileLevel.toEnum(code)).collect(Collectors.toSet());
+	}
+	
+	public void addProfile(ProfileLevel profile) {
+		profiles.add(profile.getCode());
 	}
 
 	@Override

@@ -17,7 +17,7 @@ public class EstablishmentTest {
 		Set<Space> spaces = new HashSet<>();
 		spaces.add(new Space(null, 1, 50));
 		
-		return new Establishment(null, "any_name", "000", phones, spaces, address);
+		return new Establishment(null, "any_name", "000", phones, spaces, address, "hashed_password");
 	}
 	
 }

@@ -10,7 +10,8 @@ public class VehicleTest {
 	}
 	
 	public static Vehicle mockVehicle() {
-		return new Vehicle("any_brand", "any_model", "any_color", "any_licensePlate", new VehicleType(null, "any_type"));
+		return new Vehicle("any_brand", "any_model", "any_color", "any_licensePlate", 
+				VehicleTypeTest.mockVehicleType(), EstablishmentTest.mockEstablishment());
 	}
 	
 }

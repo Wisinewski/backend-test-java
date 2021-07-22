@@ -12,6 +12,7 @@ import com.wisinewski.backendtestjava.data.establishment.LoadEstablishmentByCNPJ
 import com.wisinewski.backendtestjava.data.usecases.establishment.DbAddEstablishment;
 import com.wisinewski.backendtestjava.domain.models.EstablishmentTest;
 import com.wisinewski.backendtestjava.domain.models.establishment.Establishment;
+import com.wisinewski.backendtestjava.infra.criptography.HasherSpy;
 import com.wisinewski.backendtestjava.presentation.exceptions.CNPJInUseException;
 
 @SpringBootTest
@@ -20,21 +21,25 @@ public class DbAddEstablishmentTest {
 	private DbAddEstablishment dbAddEstablishment;
 	private LoadEstablishmentByCNPJRepositorySpy loadEstablishmentByCNPJRepositorySpy;
 	private AddEstablishmentRepositorySpy addEstablishmentRepositorySpy;
+	private HasherSpy hasherSpy;
 	
 	public void makeSut() {
 		loadEstablishmentByCNPJRepositorySpy = new LoadEstablishmentByCNPJRepositorySpy();
 		addEstablishmentRepositorySpy = new AddEstablishmentRepositorySpy();
-		dbAddEstablishment = new DbAddEstablishment(loadEstablishmentByCNPJRepositorySpy, addEstablishmentRepositorySpy);
+		hasherSpy = new HasherSpy();
+		dbAddEstablishment = new DbAddEstablishment(loadEstablishmentByCNPJRepositorySpy, addEstablishmentRepositorySpy, hasherSpy);
 	}
 	
 	public void makeSut(LoadEstablishmentByCNPJRepositorySpy injectedLoadEstablishmentByCNPJRepositorySpy) {
 		loadEstablishmentByCNPJRepositorySpy = injectedLoadEstablishmentByCNPJRepositorySpy;
-		dbAddEstablishment = new DbAddEstablishment(loadEstablishmentByCNPJRepositorySpy, addEstablishmentRepositorySpy);
+		hasherSpy = new HasherSpy();
+		dbAddEstablishment = new DbAddEstablishment(loadEstablishmentByCNPJRepositorySpy, addEstablishmentRepositorySpy, hasherSpy);
 	}
 	
 	public void makeSut(AddEstablishmentRepositorySpy injectedAddEstablishmentRepositorySpy) {
 		addEstablishmentRepositorySpy = injectedAddEstablishmentRepositorySpy;
-		dbAddEstablishment = new DbAddEstablishment(loadEstablishmentByCNPJRepositorySpy, addEstablishmentRepositorySpy);
+		hasherSpy = new HasherSpy();
+		dbAddEstablishment = new DbAddEstablishment(loadEstablishmentByCNPJRepositorySpy, addEstablishmentRepositorySpy, hasherSpy);
 	}
 
 	@Test
