@@ -10,12 +10,15 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.wisinewski.backendtestjava.domain.models.establishment.Establishment;
+
 @Entity
 @Table(name = "vehicles")
 public class Vehicle implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -23,20 +26,27 @@ public class Vehicle implements Serializable {
 	private String model;
 	private String color;
 	private String licensePlate;
-	
+
 	@ManyToOne
-	@JoinColumn(name = "id_vehicle_type")
+	@JoinColumn(name = "vehicle_type_id")
 	private VehicleType vehicleType;
-	
+
+	@JsonIgnore
+	@ManyToOne
+	@JoinColumn(name = "establishment_id")
+	private Establishment establishment;
+
 	public Vehicle() {
 	}
-	
-	public Vehicle(String brand, String model, String color, String licensePlate, VehicleType vehicleType) {
+
+	public Vehicle(String brand, String model, String color, String licensePlate, VehicleType vehicleType,
+			Establishment establishment) {
 		this.brand = brand;
 		this.model = model;
 		this.color = color;
 		this.licensePlate = licensePlate;
 		this.vehicleType = vehicleType;
+		this.establishment = establishment;
 	}
 
 	public static long getSerialversionuid() {
@@ -67,6 +77,10 @@ public class Vehicle implements Serializable {
 		return vehicleType;
 	}
 
+	public Establishment getEstablishment() {
+		return establishment;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -91,5 +105,5 @@ public class Vehicle implements Serializable {
 			return false;
 		return true;
 	}
-	
+
 }

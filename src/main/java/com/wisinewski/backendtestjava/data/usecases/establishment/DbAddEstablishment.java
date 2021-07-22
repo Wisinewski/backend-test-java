@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.wisinewski.backendtestjava.data.protocols.Hasher;
 import com.wisinewski.backendtestjava.data.protocols.LoadEstablishmentByCNPJRepository;
 import com.wisinewski.backendtestjava.data.protocols.establishment.AddEstablishmentRepository;
 import com.wisinewski.backendtestjava.domain.models.establishment.Establishment;
@@ -16,11 +17,13 @@ public class DbAddEstablishment implements AddEstablishment {
 	
 	private LoadEstablishmentByCNPJRepository loadEstablishmentByCNPJRepository;
 	private AddEstablishmentRepository addEstablishmentRepository;
+	private Hasher hasher;
 	
 	@Autowired
-	public DbAddEstablishment(LoadEstablishmentByCNPJRepository loadEstablishmentByCNPJRepository, AddEstablishmentRepository addEstablishmentRepository) {
+	public DbAddEstablishment(LoadEstablishmentByCNPJRepository loadEstablishmentByCNPJRepository, AddEstablishmentRepository addEstablishmentRepository, Hasher hasher) {
 		this.loadEstablishmentByCNPJRepository = loadEstablishmentByCNPJRepository;
 		this.addEstablishmentRepository = addEstablishmentRepository;
+		this.hasher = hasher;
 	}
 
 	@Override
@@ -29,6 +32,7 @@ public class DbAddEstablishment implements AddEstablishment {
 		if (existentEstablishment.isPresent()) {
 			throw new CNPJInUseException();
 		}
+		establishment.setPassword(hasher.hash(establishment.getPassword()));
 		addEstablishmentRepository.add(establishment);
 	}
 
