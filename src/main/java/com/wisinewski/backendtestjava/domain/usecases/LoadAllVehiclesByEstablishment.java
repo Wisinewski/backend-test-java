@@ -4,8 +4,8 @@ import java.util.List;
 
 import com.wisinewski.backendtestjava.domain.models.vehicle.Vehicle;
 
-public interface LoadVehiclesByToken {
+public interface LoadAllVehiclesByEstablishment {
 
-	List<Vehicle> load(String accessToken);
+	List<Vehicle> load(Long id);
 	
 }
