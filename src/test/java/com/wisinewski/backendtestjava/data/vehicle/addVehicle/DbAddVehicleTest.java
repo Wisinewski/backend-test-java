@@ -9,6 +9,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import com.wisinewski.backendtestjava.data.establishment.loadEstablishmentById.LoadEstablishmentByIdRepositorySpy;
 import com.wisinewski.backendtestjava.data.usecases.vehicle.DbAddVehicle;
 import com.wisinewski.backendtestjava.domain.models.VehicleTest;
 import com.wisinewski.backendtestjava.domain.models.vehicle.Vehicle;
@@ -21,24 +22,28 @@ public class DbAddVehicleTest {
 
 	private DbAddVehicle dbAddVehicle;
 	private LoadVehicleTypeByIdRepositorySpy loadVehicleTypeByIdRepositorySpy;
+	private LoadEstablishmentByIdRepositorySpy loadEstablishmentByIdRepositorySpy;
 	private AddVehicleRepositorySpy addVehicleRepositorySpy;
 	
 	public void makeSut() {
 		loadVehicleTypeByIdRepositorySpy = new LoadVehicleTypeByIdRepositorySpy();
+		loadEstablishmentByIdRepositorySpy = new LoadEstablishmentByIdRepositorySpy();
 		addVehicleRepositorySpy = new AddVehicleRepositorySpy();
-		dbAddVehicle = new DbAddVehicle(loadVehicleTypeByIdRepositorySpy, addVehicleRepositorySpy);
+		dbAddVehicle = new DbAddVehicle(loadVehicleTypeByIdRepositorySpy, loadEstablishmentByIdRepositorySpy, addVehicleRepositorySpy);
 	}
 	
 	public void makeSut(AddVehicleRepositorySpy addVehicleRepositorySpy) {
 		loadVehicleTypeByIdRepositorySpy = new LoadVehicleTypeByIdRepositorySpy();
+		loadEstablishmentByIdRepositorySpy = new LoadEstablishmentByIdRepositorySpy();
 		this.addVehicleRepositorySpy = addVehicleRepositorySpy;
-		dbAddVehicle = new DbAddVehicle(loadVehicleTypeByIdRepositorySpy, this.addVehicleRepositorySpy);
+		dbAddVehicle = new DbAddVehicle(loadVehicleTypeByIdRepositorySpy, loadEstablishmentByIdRepositorySpy, this.addVehicleRepositorySpy);
 	}
 	
 	public void makeSut(LoadVehicleTypeByIdRepositorySpy loadVehicleTypeByIdRepositorySpy) {
 		this.loadVehicleTypeByIdRepositorySpy = loadVehicleTypeByIdRepositorySpy;
+		loadEstablishmentByIdRepositorySpy = new LoadEstablishmentByIdRepositorySpy();
 		addVehicleRepositorySpy = new AddVehicleRepositorySpy();
-		dbAddVehicle = new DbAddVehicle(this.loadVehicleTypeByIdRepositorySpy, addVehicleRepositorySpy);
+		dbAddVehicle = new DbAddVehicle(this.loadVehicleTypeByIdRepositorySpy, loadEstablishmentByIdRepositorySpy, addVehicleRepositorySpy);
 	}
 	
 	@Test
